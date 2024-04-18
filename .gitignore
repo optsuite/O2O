@@ -1,7 +1,8 @@
-# VS Code
+# Project specific files
 .vscode/
 figure/*
-log_file/*
+test_log/*
+train_log/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

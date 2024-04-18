@@ -22,7 +22,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     separator = "_"
     RESULT_NAME = separator.join(model_info)
 
-    SAVE_PATH = os.path.join(FILE_DIR, "..", "log_file", RESULT_NAME + ".pickle")
+    SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME + ".pickle")
 
     # Load the dictionary
     with open(SAVE_PATH, "rb") as file:

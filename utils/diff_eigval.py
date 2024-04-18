@@ -56,6 +56,35 @@ def Lambda(f, x, num_iterations=10, tol=1e-6) -> torch.Tensor:
     return LargestEigenvalueFunction.apply(f, x, num_iterations, tol) # type: ignore
 
 
+def power_iteration(grad_func, x, num_iterations=10):
+    # Initialize a random vector
+    v = torch.randn_like(x)
+    x_ = x.detach().requires_grad_(True)
+    
+    for _ in range(num_iterations):
+        # Compute the gradient of the function at x
+        # grad = torch.autograd.grad(func(x), x, create_graph=True)[0]
+
+        # Compute the Jacobian
+        # Compute the Jacobian-vector product (JVP) of the gradient with respect to v
+        # Hv = torch.autograd.grad(grad, x, v, retain_graph=True)[0]
+        # Hv = torch.func.jvp(grad_func, x, v)[1]
+        # Hv = torch.autograd.functional.jvp(grad_func, x, v)[1]
+        with torch.enable_grad():
+            Hv, = torch.autograd.grad(grad_func(x_), x_, v, retain_graph=True, allow_unused=True)
+        #     Hv, = torch.func.jvp()
+        # Hv = torch.func.jvp(grad_func, (x_,), (v,))[1]
+
+        # Update the estimate of the largest eigenvector
+        v = Hv / torch.norm(Hv)
+
+        # Compute the largest eigenvalue using the Rayleigh quotient
+    # largest_eigenvalue = (v @ Hv).item()
+    largest_eigenvalue = v @ Hv
+
+    return largest_eigenvalue
+
+
 if __name__ == '__main__':
     import torch
 

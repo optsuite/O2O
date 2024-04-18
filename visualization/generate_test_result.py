@@ -1,9 +1,15 @@
+import sys
 import os
+
+# Add the project's root directory to the module search path
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(project_root)
+
 import torch
-from utils.dataGenerator import gen_data
-from optimizer.gradientMethods import gd, nag, eigc, igahd
+from utils import gen_data, Lambda, init_coeffs
+from classic_optimizer import gd, nag, eigc, igahd
 import matplotlib.pyplot as plt
-from vector_field import DIN, neuralODE_test, zhangODE
+from vector_field import DIN, DIN_AVD, zhangODE
 from problem import (
     logistic_loss,
     logistic_smoothness,
@@ -12,11 +18,8 @@ from problem import (
     loss_lp
 )
 import time
-from demo.diff_eigval import Lambda
 import pickle
 import numpy as np
-from utils.nag_init import nag_init
-from truncatedSVD import tsvd, pseudo_inverse
 
 
 def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
@@ -70,11 +73,6 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
 
     L = torch.minimum(logistic_smoothness(A), 4 * Lambda(grad_func, x0))
 
-    # Compute the SVD of A with truncation
-    # U, S, V = tsvd(A, threshold=1e-3)
-    # S = S
-    # S_pinv = torch.where(S != 0, 1. / S, 1e-3 * torch.ones_like(S))
-
     # x0 = torch.matmul(V, torch.mul(S_pinv, torch.matmul(U.t(), b)))
     for i in range(3):
         x0 = x0 - grad_func(x0) / L
@@ -94,7 +92,7 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
         return torch.cat((x, v))
 
     t0 = torch.tensor(1.0)
-    neural_vf = neuralODE_test(t0=t0, h=h, gradFunc=grad_func, record=False)
+    neural_vf = DIN_AVD(t0=t0, h=h, gradFunc=grad_func, record=False)
 
     # if MODEL_NAME == 'logistic_covtype':
     #     checkpoint = torch.load(os.path.join(FILE_DIR, "..", "experiments", MODEL_NAME, experiment_id, 'checkpoints', 'epoch_10.pth'), map_location="cpu")
@@ -104,12 +102,12 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
     #         os.path.join(FILE_DIR, "..", "experiments", MODEL_NAME, experiment_id, 'trained_model.pth'), map_location="cpu"
     #     )
     params = torch.load(
-    os.path.join(FILE_DIR, "..", "experiments", MODEL_NAME, experiment_id, 'trained_model.pth'), map_location="cpu"
+    os.path.join(FILE_DIR, ".", "train_log", MODEL_NAME, experiment_id, 'trained_model.pth'), map_location="cpu"
     )
     it_max = 300
     neural_vf.load_state_dict(params)
-    neural_vf_init = neuralODE_test(t0=t0, h=h, gradFunc=grad_func, record=False)
-    nag_init(neural_vf_init, h, L, grad_func, x0, t0, it_max = 400)
+    neural_vf_init = DIN_AVD(t0=t0, h=h, gradFunc=grad_func, record=False)
+    init_coeffs(neural_vf_init, h, L, grad_func, x0, t0, it_max = 400)
 
     def neural_vf_(t, y):
         x, v = neural_vf(t, (y[:d], y[d:]))
@@ -241,7 +239,7 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
     result['stable1_history'] = stable1_history
     result['stable2_history'] = stable2_history
     result['stable3_history'] = stable3_history
-    SAVE_PATH = os.path.join(FILE_DIR, "..", "log_file", RESULT_NAME)
+    SAVE_PATH = os.path.join(FILE_DIR, ".", "test_log", RESULT_NAME)
     result['save_path'] = SAVE_PATH
     # Store the dictionary
     with open(SAVE_PATH + ".pickle", "wb") as file:
@@ -281,12 +279,12 @@ if __name__ == '__main__':
         batch_size = 1024
     test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id=experiment_dict[MODEL_NAME], batch_size=batch_size)
 
-    for PROB_NAME in ['logistic', 'lpp']:
-        for DATA_NAME in easy_cases:
-            model_info = [PROB_NAME, DATA_NAME]
-            MODEL_NAME = separator.join(model_info)
-            if DATA_NAME == 'covtype':
-                batch_size = 10240
-            else:
-                batch_size = 1024
-            test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id=experiment_dict[MODEL_NAME], batch_size=batch_size)
+    # for PROB_NAME in ['logistic', 'lpp']:
+    #     for DATA_NAME in easy_cases:
+    #         model_info = [PROB_NAME, DATA_NAME]
+    #         MODEL_NAME = separator.join(model_info)
+    #         if DATA_NAME == 'covtype':
+    #             batch_size = 10240
+    #         else:
+    #             batch_size = 1024
+    #         test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id=experiment_dict[MODEL_NAME], batch_size=batch_size)

@@ -4,10 +4,10 @@ import os
 from tqdm import tqdm
 import torch
 from torchdiffeq import odeint, odeint_event
-from utils.helperFunc import plot_constraint_violate, plot_lambda, plot_coeff
+from utils.helper_func import plot_constraint_violate, plot_lambda, plot_coeff
 from torch.utils.tensorboard.writer import SummaryWriter
 from torch.utils.tensorboard.summary import hparams
-from utils.helperFunc import flatten_params, unflatten_params, form_polyhedron, admm_nn
+from utils.helper_func import flatten_params, unflatten_params, form_polyhedron, admm_nn
 from utils.test_discrete import test_discrete
 # import psutil
 
@@ -20,7 +20,7 @@ mse_loss = torch.nn.MSELoss()
 
 # METRIC_ACCURACY = 'accuracy'
 
-from memory_profiler import profile
+# from memory_profiler import profile
 
 # FILE_DIR = os.path.dirname(__file__)
 def train_neural_l1(PROB_NAME, DATA_NAME, data_loader, device, parentLoss, parentGradient, vf, optimizer, pen_coeff, x0, t0, log_dir, batch_size, num_epoch, eps, SAVE_PATH, test_dataloader = None, it_max = 300, d = None):
@@ -124,7 +124,7 @@ def train_neural_l1(PROB_NAME, DATA_NAME, data_loader, device, parentLoss, paren
 
     writer.close()
 
-@profile
+# @profile
 def inner_train_loop(A, b, device, parentGradient, vf, optimizer, pen_coeff, x0, t0, eps):
     # Get the virtual memory usage
     # vmem = psutil.virtual_memory()

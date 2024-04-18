@@ -22,7 +22,7 @@ def compare_epochs(PROB_NAME, DATA_NAME):
     x0 = torch.ones(prob.var_dim) / prob.var_dim
 
     L = torch.minimum(logistic_smoothness(prob.A), 4 * Lambda(prob.grad_func, x0))
-    for i in range(1):
+    for i in range(3):
         x0 = x0 - prob.grad_func(x0)/L
     t0 = torch.ones([])
     vf = DIN_AVD(gradFunc=prob.grad_func, t0=t0, h=0.04)
@@ -59,7 +59,7 @@ def compare_epochs(PROB_NAME, DATA_NAME):
     it = np.arange(it_max)
 
     compared_epochs = [0, 10, -1, -2]
-    labels = ["initial", "epoch 10", "epoch 80", "truncated"]
+    labels = ["initial", "epoch 10", "epoch 80", "relay"]
     for num_epochs, label in zip(compared_epochs, labels):
         if num_epochs == 0:
             init_coeffs(vf=vf, h=0.04, L=L, grad_func=prob.grad_func, x0=x0, t0=t0)

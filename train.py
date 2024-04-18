@@ -2,7 +2,7 @@ import os
 import torch
 import argparse
 from utils import gen_data, train_neural_l1, init_coeffs, Lambda
-from vector_field import DIN_AVD
+from vector_field import DIN_AVD_augmented as DIN_AVD
 from problem import (logistic_gradient, logistic_loss, logistic_smoothness,
                     loss_lp, grad_lp)
 from datetime import datetime
@@ -27,7 +27,7 @@ def train_model(problem, dataset, pretrain, num_epoch, pen_coeff, lr=0.001, mome
     print("File directory:", FILE_DIR)
     # FILE_DIR = os.path.dirname(__file__)
     # print(FILE_DIR)
-    MODEL_PATH = os.path.join(FILE_DIR, "experiments/", MODEL_NAME)
+    MODEL_PATH = os.path.join(FILE_DIR, "train_log/", MODEL_NAME)
     print("Model directory:", MODEL_PATH)
     SAVE_PATH = os.path.join(MODEL_PATH, str(experiment_id))
     # SAVE_PATH = os.path.join(FILE_DIR, "trained_model", MODEL_NAME + ".pth")
@@ -75,7 +75,7 @@ def train_model(problem, dataset, pretrain, num_epoch, pen_coeff, lr=0.001, mome
     x0 = torch.ones(var_dim, device=device) / var_dim
     # x0 = torch.zeros(var_dim, device=device)
     t0 = torch.tensor(1.0).to(device)
-    vf = DIN_AVD(gradFunc=None, t0=t0, h=h, threshold=threshold).to(device)
+    vf = DIN_AVD(gradFunc=None, t0=t0, h=h).to(device)
 
     if pretrain:
         params = torch.load(os.path.join(FILE_DIR, 'trained_model', MODEL_NAME + ".pth"), map_location=torch.device(device))
@@ -90,7 +90,7 @@ def train_model(problem, dataset, pretrain, num_epoch, pen_coeff, lr=0.001, mome
         L = torch.minimum(logistic_smoothness(A), 4 * Lambda(grad_func, x0))
         _ = init_coeffs(vf, h, L, grad_func, x0, t0, init_it)
 
-    LOG_DIR = os.path.join(FILE_DIR, "runs", MODEL_NAME)
+    LOG_DIR = os.path.join(FILE_DIR, "train_log", MODEL_NAME)
     if optim == "SGD":
         optimizer = torch.optim.SGD(vf.parameters(), lr=lr, momentum=momentum)
     else:

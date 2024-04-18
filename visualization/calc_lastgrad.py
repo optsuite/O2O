@@ -112,9 +112,9 @@ def cal_measure(PROB_NAME, DATA_NAME):
             y_list = vf.IEIV(x0, it_max)
         elif name == "LE2GC":
             y_list = vf.E2GC(x0, it_max)
-        elif name == "INVD":
+        elif name == "INVD(learned)":
             y_list = vf.EIND(x0, it_max)
-        elif name == "EIND":
+        elif name == "INVD(initial)":
             y_list = vf.EIND_untrun(x0, it_max)
         else:
             raise UserWarning("Wrong vector field name!")
@@ -137,7 +137,7 @@ def cal_measure(PROB_NAME, DATA_NAME):
         x, v = neural_vf(t, (y[:d], y[d:]))
         return torch.cat((x.squeeze(), v.squeeze()))
 
-    names = ["NAG", "GD", "EIND", "EIGC", "INVD"]
+    names = ["NAG", "GD", "INVD(initial)", "EIGC", "INVD(learned)"]
     vfs = [nag, gd, neural_vf_init, neural_vf_init, neural_vf]
 
     num_tests = 100
@@ -155,7 +155,7 @@ def cal_measure(PROB_NAME, DATA_NAME):
             measure_record[name][i] = measure
     SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
     # Store the dictionary
-    with open(SAVE_PATH + "_measure.pickle", "wb") as file:
+    with open(SAVE_PATH + "_lastgrad.pickle", "wb") as file:
         pickle.dump(measure_record, file)
 
 if __name__ == "__main__":

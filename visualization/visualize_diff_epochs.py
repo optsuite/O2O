@@ -10,7 +10,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     separator = "_"
     RESULT_NAME = separator.join(model_info)
 
-    SAVE_PATH = os.path.join(FILE_DIR, "..", "log_file", RESULT_NAME + "_epochs.pickle")
+    SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME + "_epochs.pickle")
 
     # Load the dictionary
     with open(SAVE_PATH, "rb") as file:
@@ -109,7 +109,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     stable2_record = truncate_values(del_keys(loaded_dict['stable2_history'], excluded_keys), it_max)
     stable3_record = truncate_values(del_keys(loaded_dict['stable3_history'], excluded_keys), it_max)
     stable4_record = truncate_values(del_keys(loaded_dict['stable4_history'], excluded_keys), it_max)
-    result_path = loaded_dict['save_path']
+    result_path = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
 
 
     g_truncated = truncate_values_vertical(g_record, threshold=g_record["initial"][0], top=True)
@@ -216,7 +216,7 @@ if __name__ == '__main__':
     # PROB_NAME = "logistic"
     PROB_NAME = "lpp"
     easy_cases = ["mushrooms", "a5a", "w3a", "phishing", "covtype","separable"]
-    DATA_NAME = easy_cases[1]
+    DATA_NAME = easy_cases[3]
     # excluded_keys = ["LIEIV", "DRK", "LRK", "LE2GC", "LEIGC"]
     # excluded_keys = ["INNA", "LIEIV", "DRK", "LRK", "LE2GC", "LEIGC", "IGAHD", "LFE"]
     excluded_keys = []

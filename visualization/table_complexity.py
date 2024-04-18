@@ -87,7 +87,7 @@ formatted_df = average_df.applymap(lambda x: '{:.2f}'.format(x)) + '(' + stderr_
 
 # Add the win_rate of INVD to the last row
 # formatted_df.loc['Win Rate'] = win_rate_df.loc['INVD'].apply(lambda x: '{:.2f}'.format(x))
-formatted_df.loc['Win Rate'] = (win_rate_df.loc['INVD'] * 100).apply(lambda x: '{:.2f}\\%'.format(x))
+formatted_df.loc['Win Rate'] = (win_rate_df.loc['INVD(learned)'] * 100).apply(lambda x: '{:.2f}\\%'.format(x))
 # Set the column labels to exper_list
 formatted_df.columns = exper_list
 

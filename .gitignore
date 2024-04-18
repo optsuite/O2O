@@ -2,7 +2,9 @@
 .vscode/
 figure/*
 test_log/*
+!test_log/
 train_log/*
+!train_log/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

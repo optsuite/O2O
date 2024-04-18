@@ -14,4 +14,4 @@ cd /bicmr/home/zlxie/code
 python train.py --problem logistic --dataset covtype --num_epoch 50 --pen_coeff 0.5 --batch_size 10240
 # python train.py --problem lpp --dataset w3a --num_epoch 100 --pen_coeff 0.5
 
-tensorboard --logdir=train_log/ --samples_per_plugin scalars=999999999
+tensorboard --logdir=train_log --samples_per_plugin scalars=999999999

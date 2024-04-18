@@ -22,7 +22,7 @@ if __name__ == "__main__":
             RESULT_NAME = separator.join(model_info)
             exper_list.append(DATA_NAME)
 
-            SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME + "_lastgrad.pickle")
+            SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME, RESULT_NAME + "_lastgrad.pickle")
             # Load the dictionary
             with open(SAVE_PATH, "rb") as file:
                 loaded_dict = pickle.load(file)
@@ -81,6 +81,13 @@ formatted_df.loc['Win Rate'] = (win_rate_df.loc['INVD(learned)'] * 100).apply(la
 # Set the column labels to exper_list
 formatted_df.columns = exper_list
 
+SAVE_DIR = os.path.join(FILE_DIR, '..', 'figure_table')
+
+# if not os.path.isdir(SAVE_DIR):
+#     os.mkdir(SAVE_DIR)
+
+SAVE_PATH = os.path.join(SAVE_DIR, PROB_NAME + '_measure.tex')
+
 # Write to LaTeX
-with open(os.path.join(FILE_DIR, '..', 'test_log', PROB_NAME + '_measure.tex'), 'w') as f:
+with open(SAVE_PATH, 'w') as f:
     f.write(formatted_df.to_latex())

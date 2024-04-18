@@ -102,7 +102,7 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
     #         os.path.join(FILE_DIR, "..", "experiments", MODEL_NAME, experiment_id, 'trained_model.pth'), map_location="cpu"
     #     )
     params = torch.load(
-    os.path.join(FILE_DIR, ".", "train_log", MODEL_NAME, experiment_id, 'trained_model.pth'), map_location="cpu"
+    os.path.join(FILE_DIR, "..", "train_log", MODEL_NAME, experiment_id, 'trained_model.pth'), map_location="cpu"
     )
     it_max = 300
     neural_vf.load_state_dict(params)
@@ -239,7 +239,12 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
     result['stable1_history'] = stable1_history
     result['stable2_history'] = stable2_history
     result['stable3_history'] = stable3_history
-    SAVE_PATH = os.path.join(FILE_DIR, ".", "test_log", RESULT_NAME)
+    SAVE_DIR = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
+
+    if not os.path.isdir(SAVE_DIR):
+        os.mkdir(SAVE_DIR)
+
+    SAVE_PATH = os.path.join(SAVE_DIR, MODEL_NAME)
     result['save_path'] = SAVE_PATH
     # Store the dictionary
     with open(SAVE_PATH + ".pickle", "wb") as file:
@@ -277,14 +282,14 @@ if __name__ == '__main__':
         batch_size = 10240
     else:
         batch_size = 1024
-    test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id=experiment_dict[MODEL_NAME], batch_size=batch_size)
+    # test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id=experiment_dict[MODEL_NAME], batch_size=batch_size)
 
-    # for PROB_NAME in ['logistic', 'lpp']:
-    #     for DATA_NAME in easy_cases:
-    #         model_info = [PROB_NAME, DATA_NAME]
-    #         MODEL_NAME = separator.join(model_info)
-    #         if DATA_NAME == 'covtype':
-    #             batch_size = 10240
-    #         else:
-    #             batch_size = 1024
-    #         test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id=experiment_dict[MODEL_NAME], batch_size=batch_size)
+    for PROB_NAME in ['logistic', 'lpp']:
+        for DATA_NAME in easy_cases:
+            model_info = [PROB_NAME, DATA_NAME]
+            MODEL_NAME = separator.join(model_info)
+            if DATA_NAME == 'covtype':
+                batch_size = 10240
+            else:
+                batch_size = 1024
+            test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id=experiment_dict[MODEL_NAME], batch_size=batch_size)

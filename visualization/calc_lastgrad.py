@@ -140,7 +140,7 @@ def cal_measure(PROB_NAME, DATA_NAME):
     names = ["NAG", "GD", "INVD(initial)", "EIGC", "INVD(learned)"]
     vfs = [nag, gd, neural_vf_init, neural_vf_init, neural_vf]
 
-    num_tests = 100
+    num_tests = 2
     threshold = 3e-4
 
     measure_record = dict()
@@ -153,7 +153,12 @@ def cal_measure(PROB_NAME, DATA_NAME):
             measure = prob.grad_func(y_list[-1]).norm().detach().numpy()
             # measure = cal_single_measure(y_list, prob, threshold)
             measure_record[name][i] = measure
-    SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
+    SAVE_DIR = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
+
+    if not os.path.isdir(SAVE_DIR):
+        os.mkdir(SAVE_DIR)
+
+    SAVE_PATH = os.path.join(SAVE_DIR, RESULT_NAME)
     # Store the dictionary
     with open(SAVE_PATH + "_lastgrad.pickle", "wb") as file:
         pickle.dump(measure_record, file)

@@ -28,7 +28,7 @@ if __name__ == "__main__":
             RESULT_NAME = separator.join(model_info)
             exper_list.append(DATA_NAME)
 
-            SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME + "_complexity.pickle")
+            SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME, RESULT_NAME + "_complexity.pickle")
             # Load the dictionary
             with open(SAVE_PATH, "rb") as file:
                 loaded_dict = pickle.load(file)
@@ -92,5 +92,5 @@ formatted_df.loc['Win Rate'] = (win_rate_df.loc['INVD(learned)'] * 100).apply(la
 formatted_df.columns = exper_list
 
 # Write to LaTeX
-with open(os.path.join(FILE_DIR, '..', 'test_log', PROB_NAME + '_complexity.tex'), 'w') as f:
+with open(os.path.join(FILE_DIR, '..', 'figure_table', PROB_NAME + '_complexity.tex'), 'w') as f:
     f.write(formatted_df.to_latex())

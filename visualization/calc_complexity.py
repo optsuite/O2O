@@ -140,7 +140,7 @@ def cal_complexity(PROB_NAME, DATA_NAME):
     names = ["NAG", "GD", "INVD(initial)", "EIGC", "INVD(learned)"]
     vfs = [nag, gd, neural_vf_init, neural_vf_init, neural_vf]
 
-    num_tests = 100
+    num_tests = 2
     threshold = 3e-4
 
     complexity_record = dict()
@@ -152,7 +152,12 @@ def cal_complexity(PROB_NAME, DATA_NAME):
             y_list = gen_iterate(name, vf, prob, it_max)
             complexity = cal_single_complexity(y_list, prob, threshold)
             complexity_record[name][i] = complexity
-    SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
+    SAVE_DIR = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
+
+    if not os.path.isdir(SAVE_DIR):
+        os.mkdir(SAVE_DIR)
+
+    SAVE_PATH = os.path.join(SAVE_DIR, RESULT_NAME)
     # Store the dictionary
     with open(SAVE_PATH + "_complexity.pickle", "wb") as file:
         pickle.dump(complexity_record, file)

@@ -10,7 +10,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     separator = "_"
     RESULT_NAME = separator.join(model_info)
 
-    SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME + "_epochs.pickle")
+    SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME, RESULT_NAME + "_epochs.pickle")
 
     # Load the dictionary
     with open(SAVE_PATH, "rb") as file:
@@ -109,7 +109,12 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     stable2_record = truncate_values(del_keys(loaded_dict['stable2_history'], excluded_keys), it_max)
     stable3_record = truncate_values(del_keys(loaded_dict['stable3_history'], excluded_keys), it_max)
     stable4_record = truncate_values(del_keys(loaded_dict['stable4_history'], excluded_keys), it_max)
-    result_path = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
+    SAVE_DIR = os.path.join(FILE_DIR, "..", "figure_table", RESULT_NAME, "epochs")
+
+    if not os.path.isdir(SAVE_DIR):
+        os.makedirs(SAVE_DIR)
+
+    result_path = os.path.join(SAVE_DIR, RESULT_NAME)
 
 
     g_truncated = truncate_values_vertical(g_record, threshold=g_record["initial"][0], top=True)

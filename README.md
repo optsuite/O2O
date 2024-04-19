@@ -106,9 +106,13 @@ We randomly generate 100 test functions for each problem, varying the instances 
 
 For each method, we provide two statistics:
 1. Averaged performance measure at the $N$-th iteration:
-$$\bar{m}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}\log\|\nabla f(x_{N})\|$$
+$$
+\bar{m}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}\log\|\nabla f(x_{N})\|
+$$
 2. Averaged complexity:
-$$\bar{N}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}N(f,\varepsilon)$$
+$$
+\bar{N}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}N(f,\varepsilon)
+$$
 
 The averaged performance measure with standard error is reported in Tables 1 and 2. INVD outperforms other methods with at least a magnitude in most cases.
 
@@ -130,7 +134,7 @@ The averaged performance measure with standard error is reported in Tables 1 and
 | EIGC   | -4.16     | -4.05 | -4.66 | -4.37 | -4.51 | -6.14 |
 | INVD(learned)   | -5.27     | -5.11 | -5.71 | -5.65 | -5.14 | -7.55 |
 
-*Table 2: Averaged performance measure in $\ell_{p}^{p}$ minimization problems.*
+*Table 2: Averaged performance measure in* $\ell_{p}^{p}$ *minimization problems.*
 
 The averaged complexity is presented in Tables 3 and 4. INVD consistently improves complexity, requiring only half the iterations of other methods in most problems.
 
@@ -152,7 +156,7 @@ The averaged complexity is presented in Tables 3 and 4. INVD consistently improv
 | EIGC   | 235.84    | 239.49 | 96.03 | 224.53 | 204.12 | 29.98 |
 | INVD(learned)   | 93.12     | 122.16 | 50.93 | 85.57 | 109.15 | 11.00 |
 
-*Table 4: Averaged complexity in $\ell_{p}^{p}$ minimization problems.*
+*Table 4: Averaged complexity in* $\ell_{p}^{p}$ *minimization problems.*
 
 ## Summary of Dataset
 The datasets used in our experiments are summarized in Table 1. In this table, $n$, $N_{\text{train}}$, and $N_{\text{test}}$ represent the dimension of the variable, the number of instances in the training dataset, and the number of instances in the test dataset, respectively.

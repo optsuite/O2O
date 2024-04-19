@@ -9,9 +9,6 @@ from datetime import datetime
 
 
 def train_model(problem, dataset, pretrain, num_epoch, pen_coeff, lr=0.001, momentum=0.9, batch_size=1024, seed=None, init_it=300, h=0.04, eps=3/10**4, l2=0.0, p=4, optim="SGD", threshold=10.0):
-    """
-    Train a neural ODE to fit a dataset.
-    """
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Assuming that we are on a CUDA machine, this should print a CUDA device:

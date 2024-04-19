@@ -106,7 +106,7 @@ We randomly generate 100 test functions for each problem, varying the instances 
 
 For each method, we provide two statistics:
 1. Averaged performance measure at the $N$-th iteration:
-$$m(F_{\text{test}})=\frac{1}{|F_{\text{test}}|}\sum_{f\in F_{\text{test}}}\log|\nabla f(x_{N})|$$
+$$m(F_{\text{test}})=\frac{1}{|F_{\text{test}}|}\sum_{f\in F_{\text{test}}}\log\|\nabla f(x_{N})\|$$
 3. Averaged complexity:
 $$N(F_{\text{test}})=\frac{1}{|F_{\text{test}}|}\sum_{f\in F_{\text{test}}}N(f,\varepsilon)$$
 

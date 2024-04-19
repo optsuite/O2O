@@ -121,7 +121,7 @@ def compare_epochs(PROB_NAME, DATA_NAME):
     result['stable2_history'] = stable2_history
     result['stable3_history'] = stable3_history
     result['stable4_history'] = stable4_history
-    SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME)
+    SAVE_PATH = os.path.join(FILE_DIR, "..", "test_log", RESULT_NAME, RESULT_NAME)
     result['save_path'] = SAVE_PATH
     # Store the dictionary
     with open(SAVE_PATH + "_epochs.pickle", "wb") as file:
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     prob_list = ["logistic", "lpp"]
     data_list = ["mushrooms", "a5a", "w3a", "phishing", "covtype", "separable"]
     prob_id = 1
-    data_id = 3
+    data_id = 1
     PROB_NAME = prob_list[prob_id]
     DATA_NAME = data_list[data_id]
     compare_epochs(PROB_NAME, DATA_NAME)

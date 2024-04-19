@@ -1,6 +1,7 @@
 # Project specific files
 .vscode/
 figure_table/*
+!figure_table/
 test_log/*
 !test_log/
 train_log/*

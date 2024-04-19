@@ -270,10 +270,12 @@ def calc_indicator(t0, h, alpha, beta, gamma, record_Lambda, stability_indicator
     return indicator_list
 
 def stability_indicator_1(Lambda, alpha, beta, gamma, h, t):
-    return (beta(t) - h*gamma(t)/2)*Lambda + alpha/t - 2/h
+    # return (beta(t) - h*gamma(t)/2)*Lambda + alpha/t - 2/h
+    return gamma(t) - beta(t)/h - beta.deriv(t).view(-1, 1)
 
 def stability_indicator_2(Lambda, alpha, beta, gamma, h, t):
-    return (h*gamma(t) - beta(t))*Lambda - alpha/t
+    # return (h*gamma(t) - beta(t))*Lambda - alpha/t
+    return beta(t)*torch.sqrt(Lambda) - torch.sqrt(gamma(t) - beta.deriv(t).view(-1, 1)) - torch.sqrt(gamma(t) - beta.deriv(t).view(-1, 1) - alpha/t*beta(t))
 
 def converge_indicator_1(beta, gamma, t):
     return beta(t)/t + beta.deriv(t).view(-1, 1) - gamma(t)

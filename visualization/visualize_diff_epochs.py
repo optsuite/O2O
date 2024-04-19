@@ -221,7 +221,7 @@ if __name__ == '__main__':
     # PROB_NAME = "logistic"
     PROB_NAME = "lpp"
     easy_cases = ["mushrooms", "a5a", "w3a", "phishing", "covtype","separable"]
-    DATA_NAME = easy_cases[3]
+    DATA_NAME = easy_cases[1]
     # excluded_keys = ["LIEIV", "DRK", "LRK", "LE2GC", "LEIGC"]
     # excluded_keys = ["INNA", "LIEIV", "DRK", "LRK", "LE2GC", "LEIGC", "IGAHD", "LFE"]
     excluded_keys = []

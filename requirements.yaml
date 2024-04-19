@@ -1,0 +1,27 @@
+name: ode
+channels:
+  - defaults
+dependencies:
+  - pytorch
+  - torchvision
+  - pytorch-cuda=11.8
+  - torchaudio
+  - matplotlib
+  - scikit-learn
+  - tensorboard
+  - black
+  - tqdm
+  - memory_profiler
+  - ipykernel
+  - jupyter_client[version='<8']
+  - pyzmq[version='<25']
+  - notebook
+  - pip:
+      - keras
+      - pandas
+      - pip
+      - scipy==1.10.1
+      - tensorboard==2.13.0
+      - tensorboardx==2.6.2
+      - tensorflow==2.13.0
+      - torchdiffeq==0.2.3

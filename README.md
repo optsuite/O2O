@@ -106,9 +106,9 @@ We randomly generate 100 test functions for each problem, varying the instances 
 
 For each method, we provide two statistics:
 1. Averaged performance measure at the $N$-th iteration:
-   $\bar{m}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}\log\|\nabla f(x_{N})\|$
+   $$\bar{m}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}\log\|\nabla f(x_{N})\|$$
 2. Averaged complexity:
-   $\bar{N}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}N(f,\varepsilon)$
+   $$\bar{N}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}N(f,\varepsilon)$$
 
 The averaged performance measure with standard error is reported in Tables 1 and 2. INVD outperforms other methods with at least a magnitude in most cases.
 
@@ -176,9 +176,9 @@ For each dataset, the label of each sample belongs to $\{0,1\}$. The value of ea
 
 We hope that the package is useful for your application. If you have any bug reports or comments, please feel free to email one of the toolbox authors:
 
-- Zhonglin Xie, zlxie at pku.edu.cn
+- Zhonglin Xie, zlxie@pku.edu.cn
 - Wotao Yin, wotao.yin@alibaba-inc.com
-- Zaiwen Wen, wenzw at pku.edu.cn
+- Zaiwen Wen, wenzw@pku.edu.cn
 
 ## Reference
 [Zhonglin Xie, Wotao Yin, Zaiwen Wen, O2O: ODE-based Learning to Optimize, arXiv:2307.00783, 2023.](https://arxiv.org/abs/2307.00783)

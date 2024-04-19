@@ -104,7 +104,7 @@ optional arguments:
 
 We randomly generate 100 test functions for each problem, varying the instances from the dataset. The problems are specified by the dataset, batch size, and formulation (e.g., `lpp_a5a` for `a5a` dataset and $\ell_{p}^{p}$ minimization).
 
-$$\bar{m}(\mathcal{F}_{\text{test}})=\frac{1}{2}$$
+$$\bar{m}(\mathcal{F}_{\text{test}})=\frac{1}{2\mathcal{F}_{\text{test}}}$$
 
 For each method, we provide two statistics:
 1. Averaged performance measure at the $N$-th iteration:

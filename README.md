@@ -106,9 +106,9 @@ We randomly generate 100 test functions for each problem, varying the instances 
 
 For each method, we provide two statistics:
 1. Averaged performance measure at the $N$-th iteration:
-   $$\bar{m}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}\log\|\nabla f(x_{N})\|$$
+$$\bar{m}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}\log\|\nabla f(x_{N})\|$$
 2. Averaged complexity:
-   $$\bar{N}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}N(f,\varepsilon)$$
+$$\bar{N}(\mathscr{F}_{\mathrm{test}})=\frac{1}{|\mathscr{F}_{\mathrm{test}}|}\sum_{f\in\mathscr{F}_{\mathrm{test}}}N(f,\varepsilon)$$
 
 The averaged performance measure with standard error is reported in Tables 1 and 2. INVD outperforms other methods with at least a magnitude in most cases.
 

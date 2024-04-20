@@ -190,7 +190,6 @@ For each dataset, the label of each sample belongs to $\{0,1\}$. The value of ea
 We hope that the package is useful for your application. If you have any bug reports or comments, please feel free to email one of the toolbox authors:
 
 - Zhonglin Xie, zlxie@pku.edu.cn
-- Wotao Yin, wotao.yin@alibaba-inc.com
 - Zaiwen Wen, wenzw@pku.edu.cn
 
 ## Reference

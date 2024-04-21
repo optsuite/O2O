@@ -129,6 +129,53 @@ All the datasets are designed for binary classification problems, and downloaded
 For each dataset, the label of each sample belongs to $\{0,1\}$. The value of each attribute are normalized to $[-1,1]$ by dividing the data-matrix $(a_1,a_2,\ldots,a_N)$ with the max absolute value of each attribute. The training and testing sets are pre-specified for `a5a` and `w3a`. For datasets that do not specify the testing set and training set, we divide them manually.
 
 ## Experimental Results
+In the testing stage, we adopt the convention used in the training stage by setting $L=\min\{\|A^\top A\|/N,4\Lambda(f_{D},\mathbf{1}/n)\}$, $x_0=x_1=\mathbf{1}/n-\nabla f_{\mathscr{D}}(\mathbf{1}/n)/L$, and $v_{0}=x_{0}+\beta(t_{0})\nabla f(x_{0})$. The compared methods in our experiments are listed below.
+
+- **GD**. The vanilla gradient descent GD is the standard method in optimization. We set the stepsize as $h=1/L$.
+
+- **NAG**. Nesterov's accelerated gradient descent method NAG is a milestone of the acceleration methods. We employ the version for convex functions
+
+  $$
+  y_{k+1}=x_{k}-h\nabla f(x_{k}),\quad x_{k+1}=y_{k+1}+\frac{k-1}{k+2}(y_{k+1}-y_{k}),
+  $$
+
+  where the stepsize is chosen as $h=1/L$.
+
+- **EIGC**. This method is obtained by applying the explicit-implicit gradient correction scheme for
+
+  $$
+  \ddot{x}(t)+\frac{a}{t}\dot{x}(t)+\sqrt{s}\nabla^2 f(x(t))\dot{x}(t)+\left(1+\frac{a\sqrt{s}}{t}\right)\nabla f(x(t))=0.
+  $$
+
+  Let $s=1/L$. In each iteration, the method performs
+
+  $$
+  \begin{aligned}
+  &x_{k}-x_{k-1}=\sqrt{s}v_{k-1},\\
+  &v_{k}-v_{k-1}=-\frac{a}{k}v_{k}-\sqrt{s}(\nabla f(x_{k})-\nabla f(x_{k-1}))-\left(1+\frac{a}{k}\right)\sqrt{s}\nabla f(x_{k}).
+  \end{aligned}
+  $$
+
+- **INVD**. Inertial Newton algorithm with vanishing damping (Algorithm \ref{algo:INVD}) with the coefficients learned by Algorithm \ref{algo:SEPM}. 
+We empirically compare these methods on two tasks: logistic regression and minimization of $\ell_{p}^p$ in six distinct datasets.  In our first task, we consider the logistic regression problem defined by a finite set $D$, a subset of a given dataset or is sampled from a distribution
+$$
+    \min_{x\in\mathbb{R}^n}f_{D}(x)=\frac{1}{|D|}\sum_{(a_{f},b_i)\in D}\log (1+\exp(-b_i\langle a_i,x \rangle)),
+$$
+where the data pairs $\{a_{f},b_{f}\}\in \mathbb{R}^n\times \{0,1\},i\in [|D|]$. Let $\sigma(t) = \frac{1}{1+\exp(-t)}\in(0,1)$, the Hessian matrix of $f_{D}$ is
+$$
+    \nabla^2 f_{D}(x) = \frac{1}{|D|}\sum_{(a_{f},b_i)\in D}b_i^2a_ia_i^\top\sigma(b_i\langle a_i,x \rangle)(1-\sigma(b_i\langle a_i,x \rangle)).
+$$
+Let $A=(a_1,\ldots,a_{|D|})$, the Lipschitz constant of $\nabla f$ is bounded by $L = \|AA^\top\|/|D|$.
+
+In our second task, given an even integer $p\geq 4$ and a set of the samples $D$, we consider the $\ell_p^p$ minimization as follows
+$$
+    \min_{x\in\mathbb{R}^n}f_{D}(x)=\frac{1}{|D|}\sum_{(a_{f},b_i)\in D}\frac{1}{p}(\langle a_i,x \rangle-b_i)^p.
+$$
+The Hessian matrix of $f_{D}$ writes
+$$
+    \nabla^2 f_{D}(x)=\frac{1}{|D|}\sum_{(a_{f},b_i)\in D}(p-1)(\langle a_i,x\rangle-b_i)^{p-2}a_i a_i^\top.
+$$
+Since $(\langle a_i,x\rangle-b_i)^{p-2}$ is unbounded of each $i$, the Lipschitz constant for $\nabla f_{D}$ cannot be bounded globally.
 
 We randomly generate 100 test functions for each problem, varying the instances from the dataset. The problems are specified by the dataset, batch size, and formulation (e.g., `lpp_a5a` for `a5a` dataset and $\ell_{p}^{p}$ minimization).
 

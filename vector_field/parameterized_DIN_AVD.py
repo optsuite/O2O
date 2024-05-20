@@ -171,7 +171,7 @@ class DIN_AVD(nn.Module):
                 # tk = t0.clone()
                 # lambda_trun = (df - df_old).norm()/(x - x_old).norm()
             if truncate:
-                beta = (2./h - 1. * self.alpha/tk) / lambda_trun
+                beta = (4./h - 2. * self.alpha/tk) / lambda_trun
                 gamma = beta / h
                 # v = torch.zeros_like(x0)
                 truncate = True

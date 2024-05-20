@@ -18,7 +18,7 @@ def nag(df, it_max, h, x0):
     y = torch.clone(x0)
     for k in range(it_max):
         x_list[k] = x
-        x, x_prev = y - h * df(y), x
+        x, x_prev = y - h*h * df(y), x
         y = x + (k-1.0)/(k+2.0)*(x-x_prev)
     return x_list.to(x0.device)
 
@@ -53,10 +53,10 @@ def igahd(df, it_max, h, x0):
     for k in range(it_max):
         x_list[k] = x
         alpha = 1. - 3./(k+1.)
-        beta = h
+        beta = 1.9 * h
         gamma = 1. + 1./(k+1.)
 
-        y = x + alpha * (x - x_old) - beta*h*(grad - grad_old)-h*h*(gamma - 1.0)*grad_old
+        y = x + alpha * (x - x_old) - beta*h*(grad - grad_old)-beta*h*(gamma - 1.0)*grad_old
         x_old = x.clone()
         x = y - h*h*df(y)
 

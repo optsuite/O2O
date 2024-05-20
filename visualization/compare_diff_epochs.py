@@ -59,7 +59,7 @@ def compare_epochs(PROB_NAME, DATA_NAME):
     it = np.arange(it_max)
 
     compared_epochs = [0, 10, -1, -2]
-    labels = ["initial", "epoch 10", "epoch 80", "relay"]
+    labels = ["default", "epoch 10", "epoch 80", "relay"]
     for num_epochs, label in zip(compared_epochs, labels):
         if num_epochs == 0:
             init_coeffs(vf=vf, h=0.04, L=L, grad_func=prob.grad_func, x0=x0, t0=t0)
@@ -149,20 +149,20 @@ def admit_rho_list(lambda_list, h, alpha, beta, gamma):
     C = torch.maximum(A*A - B, torch.zeros_like(A))
     D = torch.maximum(1 - 2*A + B, torch.zeros_like(A))
     E = A*A - B
-    F = torch.minimum(2. - B, B)
+    F = torch.maximum(1. - B, B - 1.)
     G = 1 - 2*A + B
 
-    constraint1 = 1. - D**0.5
-    constraint2l = 2. - B - C**0.5
-    constraint3l = B - C**0.5
+    constraint1 = D**0.5
+    constraint2l = 1. - B - C**0.5
+    constraint3l = B - C**0.5 - 1.
 
     # Initialize constraint_l with the same size as constraint1
     constraint_l = torch.zeros_like(constraint1)
 
     # When E >= 0
     mask_geq_0 = E >= 0
-    constraint_l[mask_geq_0] = torch.minimum(constraint1[mask_geq_0], 
-                                            torch.minimum(constraint2l[mask_geq_0], 
+    constraint_l[mask_geq_0] = torch.maximum(constraint1[mask_geq_0], 
+                                            torch.maximum(constraint2l[mask_geq_0], 
                                                         constraint3l[mask_geq_0]))
 
     # When E < 0

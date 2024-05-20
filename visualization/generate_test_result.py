@@ -7,7 +7,7 @@ sys.path.append(project_root)
 
 import torch
 from utils import gen_data, Lambda, init_coeffs
-from classic_optimizer import gd, nag, eigc, igahd
+from classic_optimizer import gd, nag, eigc, igahd, argd, rgd
 import matplotlib.pyplot as plt
 from vector_field import DIN, DIN_AVD, zhangODE
 from problem import (
@@ -68,13 +68,13 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
         else:
             return grad_lp(A, b, w, p)
 
-    # x0 = torch.ones(var_dim) / var_dim
-    x0 = torch.zeros(var_dim)
+    x0 = torch.ones(var_dim) / var_dim
+    # x0 = torch.zeros(var_dim)
 
     L = torch.minimum(logistic_smoothness(A), 4 * Lambda(grad_func, x0))
 
     # x0 = torch.matmul(V, torch.mul(S_pinv, torch.matmul(U.t(), b)))
-    for i in range(3):
+    for i in range(1):
         x0 = x0 - grad_func(x0) / L
     # AtA_diag = torch.einsum('ij,ij->j', [A, A])
     # AtA_diag_ = torch.diagonal(A @ A.T)
@@ -149,8 +149,8 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
             y[i + 1] = y[i] + h * k1
         return y
 
-    names = ["NAG", "GD", "EIGC", "IGAHD", "DRK", "INNA", "LEIGC", "LIEIV", "LRK", "INVD", "LE2GC", "LFE"]
-    vfs = [nag, gd, neural_vf_init, neural_vf_init, zhang_vf_, DIN_vf_, neural_vf, neural_vf, neural_vf_, neural_vf, neural_vf, neural_vf_]
+    names = ["GD", "NAG", "RGD", "IGAHD", "EIGAC(default)", "EIGAC", "DRK", "INNA", "LEIGC", "LIEIV", "LRK", "LE2GC", "LFE"]
+    vfs = [gd, nag, rgd, igahd, neural_vf_init, neural_vf, zhang_vf_, DIN_vf_, neural_vf, neural_vf, neural_vf_, neural_vf, neural_vf_]
 
     iterate_history = dict()
     f_history = dict()
@@ -186,12 +186,12 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
         elif name == "DRK":
             # y_list = euler(vf, y0, it_max, h / 10, t0)
             y_list = runge_kutta4(vf, y0, it_max, h, t0)
-        elif name == "GD":
-            y_list = vf(grad_func, it_max, 1 / L, x0)
-        elif name == "NAG":
-            y_list = vf(grad_func, it_max, 1 / L, x0)
-        elif name == "IGAHD":
-            y_list = vf.EIND(x0, it_max)
+        elif name in ["GD", "NAG", "ARGD", "RGD", "IGAHD"]:
+            y_list = vf(grad_func, it_max, 1 / L**0.5, x0)
+        # elif name == "NAG":
+        #     y_list = vf(grad_func, it_max, 1 / L, x0)
+        # elif name == "IGAHD":
+        #     y_list = vf.EIND(x0, it_max)
         elif name == "EIGC":
             y_list = vf.eigc(x0, it_max)
         elif name in ["LPOLY", "POLY", "LPOLY+"]:
@@ -210,7 +210,7 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
             v0 = x0 + neural_vf.beta(t0)*grad_func(x0)
             y0 = torch.cat((x0, v0.squeeze()), dim=0)
             y_list = euler(vf, y0, it_max, h, t0)
-        elif name == "INVD":
+        elif name == "EIGAC" or "EIGAC(default)":
             y_list = vf.EIND(x0, it_max)
         else:
             raise UserWarning("Wrong vector field name!")
@@ -275,7 +275,7 @@ if __name__ == '__main__':
 
     # PROB_NAME = "logistic"
     PROB_NAME = "lpp"
-    DATA_NAME = easy_cases[4]
+    DATA_NAME = easy_cases[1]
     model_info = [PROB_NAME, DATA_NAME]
     MODEL_NAME = separator.join(model_info)
     if DATA_NAME == 'covtype':

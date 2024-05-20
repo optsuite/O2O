@@ -117,7 +117,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     result_path = os.path.join(SAVE_DIR, RESULT_NAME)
 
 
-    g_truncated = truncate_values_vertical(g_record, threshold=g_record["initial"][0], top=True)
+    g_truncated = truncate_values_vertical(g_record, threshold=g_record["default"][0], top=True)
     # stable1_record = truncate_values_vertical(stable1_record, threshold=-2.)
     # stable2_record = truncate_values_vertical(stable2_record, threshold=-1.)
     # stable3_record = truncate_values_vertical(stable3_record, threshold=-1.)
@@ -153,14 +153,14 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     plot_template(x_diff, x_label, y_label, result_path+'_epochs_diff', lower_x, upper_x, lower_y, upper_y, plot_type = 'semilogy', set_lim=False, plot_threshold=False)
 
     x_label = r"$\mathrm{iteration}$"
-    y_label = r"$\Vert\nabla f(x)\Vert$"
+    y_label = r"$\Vert\nabla f(x_{k})\Vert$"
     upper_x = it_max
     lower_x = None
     lower_y, upper_y = threshold, None
     plot_template(g_truncated, x_label, y_label, result_path+'_epochs_grad', lower_x, upper_x, lower_y, upper_y, plot_type = 'semilogy', set_lim=False, plot_threshold=False)
 
     x_label = r"$\mathrm{iteration}$"
-    y_label = r"$\lambda_{\max}(\nabla^2 f(x))$"
+    y_label = r"$\lambda_{\max}(\nabla^2 f(x_{k}))$"
     upper_x = it_max
     lower_x = 0
     lower_y, upper_y = 10**-4, 1
@@ -168,15 +168,15 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     plot_template(lambda_record, x_label, y_label, result_path+'_epochs_lambda', lower_x, upper_x, lower_y, upper_y, plot_type = 'plot')
 
     x_label = r"$\mathrm{iteration}$"
-    y_label = r"$f(x)$"
+    y_label = r"$f(x_{k})$"
     upper_x = it_max
     lower_x = 0
     lower_y, upper_y = 10**-4, 1
     f_record = align_length(f_record, g_truncated)
     plot_template(f_record, x_label, y_label, result_path+'_epochs_func', lower_x, upper_x, lower_y, upper_y, plot_type = 'semilogy')
 
-    x_label = r"$\Vert\nabla f(x)\Vert$"
-    y_label = r"$\lambda_{\max}(\nabla^2 f(x))$"
+    x_label = r"$\Vert\nabla f(x_{k})\Vert$"
+    y_label = r"$\lambda_{\max}(\nabla^2 f(x_{k}))$"
     lower_x, upper_x = 0.001, 1.1
     lower_y, upper_y = None, None
     set_lim = False
@@ -184,7 +184,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     plot_template(lambda_record, x_label, y_label, result_path+'_epochs_smooth', lower_x, upper_x, lower_y, upper_y, plot_type = 'loglog', line_style='', x_record=g_record, total_marker=10, set_lim=set_lim)
 
     x_label = r"$\mathrm{iteration}$"
-    y_label = r"$\rho_\mathrm{max}$"
+    y_label = r"$\rho_{k}$"
     upper_x = None
     lower_x = None
     lower_y = -.25
@@ -194,7 +194,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
 
     x_label = r"$\mathrm{iteration}$"
     # y_label = r"$\frac{h^2}{4}(\beta_k\Lambda_k+\alpha/t_k)^2-h^2\gamma_k\Lambda(f,x_k)$"
-    y_label = r"$\Delta_k$"
+    y_label = r"$C_k$"
     upper_x = None
     lower_x = None
     lower_y, upper_y = -1.1, .25
@@ -202,7 +202,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     plot_template(stable2_record, x_label, y_label, result_path+'_epochs_stable2', lower_x, upper_x, lower_y, upper_y, plot_type = 'plot', set_lim=set_lim)
 
     x_label = r"$\mathrm{iteration}$"
-    y_label = r"$\min\{B_k,2-B_k\}$"
+    y_label = r"$\max\{1-B_k,B_k-1\}$"
     upper_x = None
     lower_x = None
     lower_y, upper_y = -1., 1.

@@ -152,9 +152,11 @@ if __name__ == '__main__':
     # PROB_NAME = "logistic"
     PROB_NAME = "lpp"
     easy_cases = ["mushrooms", "a5a", "w3a", "phishing", "covtype", "separable"]
-    DATA_NAME = easy_cases[4]
+    DATA_NAME = easy_cases[1]
     # excluded_keys = ["LIEIV", "DRK", "LRK", "LE2GC", "LEIGC"]
-    excluded_keys = ["IGAHD", "INNA", "LIEIV", "DRK", "LRK", "LE2GC", "LEIGC", "LFE"]
+    excluded_keys = ["DRK", "INNA", "LEIGC", "LIEIV", "LRK", "LE2GC", "RGD", "ARGD", "LFE"]
+    # ["NAG", "GD", "ARGD", "IGAHD", "DRK", "INNA", "LEIGC", "LIEIV", "LRK", "EIGAC", "LE2GC", "LFE"]
+    # ["IGAHD", "INNA", "LIEIV", "DRK", "LRK", "LE2GC", "LEIGC", "LFE"]
     # excluded_keys = []
     it_max = 300
     for PROB_NAME in ["lpp", "logistic"]:

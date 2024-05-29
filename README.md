@@ -140,18 +140,9 @@ We set $L=\min\\{\|A^\top A\|/N,4\Vert \nabla^2 f_{D}(x_0)\Vert\\}$, $x_0=x_1=\m
   where the stepsize is chosen as $h=1/L$.
 
 - **IGAHD**. Inertial gradient algorithm with Hessian-driven damping. This method is obtained by applying a NAG inspired time discretization of
-    $$
-    \ddot{x}(t)+\frac{\alpha}{t}\dot{x}(t)+\beta\nabla^2 f(x(t))\dot{x}(t)+\left(1+\frac{\beta}{t}\right)\nabla f(x(t))=0.
-    $$
+    $$\ddot{x}(t)+\frac{\alpha}{t}\dot{x}(t)+\beta\nabla^2 f(x(t))\dot{x}(t)+\left(1+\frac{\beta}{t}\right)\nabla f(x(t))=0.$$
     Let $s=1/L$. In each iteration, setting $\alpha_{k}=1-\alpha/k$, the method performs
-    $$
-        \left\{
-        \begin{aligned}
-        & y_k=x_k+\alpha_k\left(x_k-x_{k-1}\right)-\beta \sqrt{s}\left(\nabla f\left(x_k\right)-\nabla f\left(x_{k-1}\right)\right)-\frac{\beta \sqrt{s}}{k} \nabla f\left(x_{k-1}\right), \\
-        & x_{k+1}=y_k-s \nabla f\left(y_k\right).
-        \end{aligned}
-        \right.
-    $$
+    $$y_k=x_k+\alpha_k\left(x_k-x_{k-1}\right)-\beta \sqrt{s}\left(\nabla f\left(x_k\right)-\nabla f\left(x_{k-1}\right)\right)-\frac{\beta \sqrt{s}}{k} \nabla f\left(x_{k-1}\right),\quad x_{k+1}=y_k-s \nabla f\left(y_k\right).$$
     In [Attouch et al. 2020](https://link.springer.com/article/10.1007/s10107-020-01591-1), it has been show that IGAHD owns $\mathcal{O}(1/k^2)$ convergence rate when $0\leq \beta< 2/\sqrt{s}$ and $s\leq 1/L$. Its performance may not coincide with NAG due to the existence of the gradient correction term. In our experiments, IGAHD serves as a baseline of the optimization methods derived from the ODE viewpoint without learning.
 
 - **EIGAC**. Explicit inertial gradient algorithm with correction **(EIGAC)**. We provide two versions of EIGAC with default coefficients $\alpha = 6$, $\beta(t) = \left({4}/{h} - {2\alpha}/{t}\right)/L$, and $\beta(t) = h\gamma(t)$ and the coefficients learned by **O2O**. The numerical experiments effectively show that the EIGAC with default coefficients are sufficient to converge and the performance is comparable with NAG, while EIGAC with learned coefficients is superior over other methods.

@@ -1,6 +1,6 @@
 ## O2O
 
-**O2O: ODE-based learning to optimize (O2O)** is a comprehensive framework integrating the dynamical inertial Newton with asymptotic vanishing damping (DIN-AVD) equation for developing optimization methods. We focus on the uncontrained convex smooth optimization:
+**O2O: ODE-based learning to optimize (O2O)** is a comprehensive framework integrating the dynamical inertial Newton with asymptotic vanishing damping (ISHD) equation for developing optimization methods. We focus on the uncontrained convex smooth optimization:
 $$\min_{x}\quad f(x),\qquad x\in\mathbb{R}^n.$$
 
 The pipeline of O2O is as follows:

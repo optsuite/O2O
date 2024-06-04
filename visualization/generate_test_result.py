@@ -71,7 +71,8 @@ def test_module(PROB_NAME, DATA_NAME, FILE_DIR, experiment_id, batch_size):
     x0 = torch.ones(var_dim) / var_dim
     # x0 = torch.zeros(var_dim)
 
-    L = torch.minimum(logistic_smoothness(A), 4 * Lambda(grad_func, x0))
+    # L = torch.minimum(logistic_smoothness(A), 4 * Lambda(grad_func, x0))
+    L = 4 * Lambda(grad_func, x0)
 
     # x0 = torch.matmul(V, torch.mul(S_pinv, torch.matmul(U.t(), b)))
     for i in range(1):
@@ -275,7 +276,7 @@ if __name__ == '__main__':
 
     # PROB_NAME = "logistic"
     PROB_NAME = "lpp"
-    DATA_NAME = easy_cases[1]
+    DATA_NAME = easy_cases[4]
     model_info = [PROB_NAME, DATA_NAME]
     MODEL_NAME = separator.join(model_info)
     if DATA_NAME == 'covtype':

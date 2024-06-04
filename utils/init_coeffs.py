@@ -10,7 +10,7 @@ def init_coeffs(vf, h, L, grad_func, x0, t0, it_max = 400):
     fit_curve(vf.gamma, t, sqrt_s.pow(2) / h**2)
 
     t = torch.linspace(h, it_max*h, it_max, device=x0.device)
-    beta_bound = (4./h - 2. * vf.alpha/t) * sqrt_s.pow(2)
+    beta_bound = (2./h - 1. * vf.alpha/t) * sqrt_s.pow(2)
     gamma_bound = beta_bound / h
     # beta_bound = sqrt_s.pow(2) / h
     # gamma_bound = sqrt_s.pow(2) * (1 + vf.alpha * h / t / 2.) / h**2

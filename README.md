@@ -9,7 +9,7 @@ The pipeline of O2O is as follows:
 
 The key ingredients of the proposed pipeline are:
 
-* Stable discretization guarantee: Ensures the stable discretization of the ODE using the forward Euler scheme, consisting of a convergent condition and a stable condition.
+* Stable discretization guarantee: Ensures the stable discretization of the ODE using the forward Euler scheme, consisting of a convergence condition and a stability condition.
 
 * Learning to optimize framework: Utilizes a learning to optimize framework and a corresponding algorithm to find the optimal coefficients numerically.
 

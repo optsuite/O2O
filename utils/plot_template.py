@@ -3,7 +3,8 @@ import torch
 
 
 def plot_template(y_record, x_label, y_label, save_path, lower_x, upper_x, lower_y, upper_y, plot_type, x_record = None, line_style = '-', total_marker = 16, set_lim = False, save = True, plot_threshold = False, threshold = 3e-4):
-    markers = ["o", "^", "D", "s", "X", "P", "p", "<", ">", "v", "*"]
+    markers = ["o", "D", "s", "X", "P", "p", "<", ">", "v", "^", "*"]
+    colors = ['b', 'g', 'c', 'm', 'r', 'y', 'k', 'w']
 
     plt.figure(figsize=(8, 6), dpi=300)
     plt.rc('font', family='DejaVu Sans')
@@ -35,7 +36,7 @@ def plot_template(y_record, x_label, y_label, save_path, lower_x, upper_x, lower
         raise UserWarning("Wrong plot type name!")
 
     if x_record == None:
-        for (name, y_list), marker in zip(y_record.items(), markers):
+        for (name, y_list), marker, color in zip(y_record.items(), markers, colors):
             plt_func(
                 y_list,
                 marker+line_style,
@@ -43,10 +44,11 @@ def plot_template(y_record, x_label, y_label, save_path, lower_x, upper_x, lower
                 markevery=max(1, len(y_list) // total_marker),
                 # markevery=60,
                 markersize=12.0,
-                markerfacecolor='white'
+                markerfacecolor='white',
+                color=color
             )
     else:
-        for (name, x_list), (_, y_list), marker in zip(x_record.items(), y_record.items(), markers):
+        for (name, x_list), (_, y_list), marker, color in zip(x_record.items(), y_record.items(), markers, colors):
             plt_func(
                 x_list,
                 y_list,
@@ -55,7 +57,8 @@ def plot_template(y_record, x_label, y_label, save_path, lower_x, upper_x, lower
                 markevery=max(1, len(y_list) // total_marker),
                 # markevery=60,
                 markersize=12.0,
-                markerfacecolor='white'
+                markerfacecolor='white',
+                color=color
             )
 
     # plt.legend(fontsize=16)

@@ -210,7 +210,7 @@ def plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max):
     plot_template(stable3_record, x_label, y_label, result_path+'_epochs_stable3', lower_x, upper_x, lower_y, upper_y, plot_type = 'plot', set_lim=set_lim)
 
     x_label = r"$\mathrm{iteration}$"
-    y_label = r"$\mathrm{stable 3}$"
+    y_label = r"$\rho_{k}$"
     upper_x = None
     lower_x = None
     lower_y, upper_y = -1., 1.
@@ -225,7 +225,7 @@ if __name__ == '__main__':
     # excluded_keys = ["LIEIV", "DRK", "LRK", "LE2GC", "LEIGC"]
     # excluded_keys = ["INNA", "LIEIV", "DRK", "LRK", "LE2GC", "LEIGC", "IGAHD", "LFE"]
     excluded_keys = []
-    it_max = 2000
+    it_max = 1000
     plot_module(PROB_NAME, DATA_NAME, excluded_keys, it_max)
     # for PROB_NAME in ['logistic', 'lpp']:
     #     for DATA_NAME in easy_cases:

@@ -5,9 +5,9 @@ $$\min_{x}\quad f(x),\qquad x\in\mathbb{R}^n.$$
 
 The pipeline of O2O is as follows:
 
-<div style="text-align: center;">
-![pipeline](pipeline.svg)
-</div>
+<p align="center">
+  <img src=pipeline.svg alt="[pipeline]">
+</p>
 
 The key ingredients of the proposed pipeline are:
 

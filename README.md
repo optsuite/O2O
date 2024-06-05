@@ -246,7 +246,7 @@ We hope that the package is useful for your application. If you have any bug rep
 - Zaiwen Wen, wenzw@pku.edu.cn
 
 ## Reference
-[Zhonglin Xie, Wotao Yin, Zaiwen Wen, O2O: ODE-based Learning to Optimize, arXiv:2307.00783, 2023.](https://arxiv.org/abs/2307.00783)
+[Zhonglin Xie, Wotao Yin, Zaiwen Wen, ODE-based Learning to Optimize, arXiv:2406.02006, 2024.](https://arxiv.org/abs/2406.02006)
 
 ## License
 GNU General Public License v3.0
